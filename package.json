@@ -1,0 +1,26 @@
+{
+  "name": "node_project",
+  "version": "1.0.0",
+  "description": "this is my first node project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pasindu1997/first_node_project.git"
+  },
+  "keywords": [
+    "node",
+    "js"
+  ],
+  "author": "pasindu prabath hettiarachchi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pasindu1997/first_node_project/issues"
+  },
+  "homepage": "https://github.com/pasindu1997/first_node_project#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
