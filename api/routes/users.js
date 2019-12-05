@@ -1,7 +1,10 @@
+
+
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
@@ -23,7 +26,7 @@ router.post('/signup',(req,res,next) =>{
                             password: hash
                         });
                         user.save().then(result => {
-                            console.log(result)
+                            console.log(result);
                             res.status(201).json({
                                 message: 'User created'
                             })
@@ -58,8 +61,15 @@ router.post('/login',(req,res,next)=>{
              //checking whether the password is correct
              if (bcrypt.compareSync(req.body.password, Users[0].password)){
                 console.log("hetti");
+                const token = jwt.sign({
+                    email:Users[0].password,
+                    userId: Users[0]._id
+                }, process.env.JWT_KEY,{
+                    expiresIn: "1h"
+                });
                  return res.status(200).json({
-                     message: 'Auth successful'
+                     message: 'Auth successful',
+                     token: token
                  })
              }else{
                  return res.status(401).json({
@@ -86,7 +96,8 @@ router.delete('/:userId',(req,res,next) => {
                 .exec()
                 .then(deletedUser => {
                     res.status(200).json({
-                        message: "the user has been deleted"
+                        message: "the user has been deleted",
+                        userDeleted: deletedUser
                     })
                 })
                 .catch(err => {

@@ -3,8 +3,9 @@ const router = express.Router();
 const mongoose = require('mongoose');//to create an id
 const Order = require('../models/order');
 const Product = require('../models/product');
+const checkAuth = require('../middleware/check-auth');
 
-router.get('/',(req,res,next)=>{
+router.get('/',checkAuth,(req,res,next)=>{
     Order.find().select('_id product quantity').populate('product','_id name price').exec()
         .then(results =>{
             res.status(200).json({
@@ -34,7 +35,7 @@ router.get('/',(req,res,next)=>{
             });
     });
 });
-router.get('/:orderId',(req,res,next)=>{
+router.get('/:orderId',checkAuth,(req,res,next)=>{
     Order.findById(req.params.orderId)
 
         .exec()
@@ -61,7 +62,7 @@ router.get('/:orderId',(req,res,next)=>{
     });
 });
 
-router.post('/',(req,res,next)=>{
+router.post('/',checkAuth,(req,res,next)=>{
     Product.findById(req.body.productId).exec()
         .then(product =>{
             //this checks whether the productId is null which means there is not relevant product id
@@ -110,7 +111,7 @@ router.post('/',(req,res,next)=>{
 
 
 
-router.post('/:orderID',(req,res,next)=>{
+router.post('/:orderID',checkAuth,(req,res,next)=>{
     res.status(201).json({
         message:'inserted order'
     });
@@ -118,7 +119,7 @@ router.post('/:orderID',(req,res,next)=>{
 
 
 
-router.delete('/:orderId',(req,res,next)=>{
+router.delete('/:orderId',checkAuth,(req,res,next)=>{
     Order.findById(req.params.orderId).exec()
         .then(order =>{
             if (!order){
